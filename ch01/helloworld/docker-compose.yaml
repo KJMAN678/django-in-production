@@ -6,7 +6,7 @@ services:
       - .:/app
     ports:
       - "8000:8000"
-    command: uv run manage.py runserver 0.0.0.0:8000
+    command: uv run backend/manage.py runserver 0.0.0.0:8000
     depends_on:
       - db
 
