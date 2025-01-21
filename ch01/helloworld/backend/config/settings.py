@@ -133,3 +133,10 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# REST Framework settings
+# https://www.django-rest-framework.org/api-guide/versioning/#configuring-the-versioning-scheme
+# 他に URLHeaderVersioning, NamespaceVersioning, HostNameVersioning, QueryParameterVersioning などがある
+REST_FRAMEWORK = {
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning",
+}
