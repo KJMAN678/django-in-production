@@ -23,6 +23,9 @@ $ docker compose run --rm web uv run backend/manage.py startapp demo_app
 ### router について
 https://www.django-rest-framework.org/api-guide/routers/
 
+### class based view
+http://localhost:8000/v1/demo-app-version/apiview-class/
+
 ### その他コマンド
 
 ```sh
