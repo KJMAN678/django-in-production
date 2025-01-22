@@ -26,6 +26,9 @@ https://www.django-rest-framework.org/api-guide/routers/
 ### class based view
 http://localhost:8000/v1/demo-app-version/apiview-class/
 
+### ViewSets
+https://www.django-rest-framework.org/api-guide/viewsets/
+
 ### その他コマンド
 
 ```sh

@@ -5,3 +5,4 @@
 
 ### Chapter
 - [1章 Django-Rest-Framework](ch01/)
+- [2章 Django ORM](ch02/)
