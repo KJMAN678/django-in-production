@@ -12,10 +12,15 @@ https://www.psycopg.org/docs/install.html#psycopg-vs-psycopg-binary
 http://localhost:8000/
 
 ```sh
-$ docker compose run --rm web uv run backend/manage.py startapp demo_app
+$ mkdir backend/author
+$ docker compose run --rm web uv run django-admin startapp author backend/author
+$ mkdir backend/blog
+$ docker compose run --rm web uv run django-admin startapp blog backend/blog
 ```
 
-
+### model メモ
+- blank=True/False はアプリケーション上の制約
+- null=True/False はデータベース上の制約
 
 ### その他コマンド
 
