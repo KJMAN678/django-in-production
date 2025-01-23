@@ -26,3 +26,7 @@ class BaseTimeStampModel(models.Model):
 class CoverImage(BaseTimeStampModel):
     image_link = models.URLField()
     blog = models.OneToOneField(Blog, related_name="blog_ci", on_delete=models.PROTECT)
+
+
+class DemoModel(BaseTimeStampModel):
+    name = models.CharField(max_length=100)
