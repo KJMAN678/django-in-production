@@ -10,3 +10,11 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class BlogAuthor(Author):
+    class Meta:
+        proxy = True
+
+    def perform_something(self):
+        pass
