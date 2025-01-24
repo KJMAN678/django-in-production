@@ -9,12 +9,17 @@
 $ touch .env
 ```
 - config/settings.py の SECRET_KEY
+```sh
 SECRET_KEY=""
+```
 - createsuperuser 実行時の設定
+```sh
 DJANGO_SUPERUSER_PASSWORD=""
 DJANGO_SUPERUSER_USERNAME=""
 DJANGO_SUPERUSER_EMAIL=""
+```
 
 ### Chapter
 - [1章 Django-Rest-Framework](ch01/)
 - [2章 Django ORM](ch02/)
+- [3章 DRF による データ Serialize 処理](ch03/)
