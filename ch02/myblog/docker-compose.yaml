@@ -6,6 +6,11 @@ services:
       - .:/app
     ports:
       - "8000:8000"
+    environment:
+      - "SECRET_KEY=${SECRET_KEY}"
+      - "DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}"
+      - "DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}"
+      - "DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}"
     command: uv run backend/manage.py runserver 0.0.0.0:8000
     depends_on:
       - db

@@ -1,21 +1,30 @@
 ```sh
+# 初回のみ ディレクトリ作成、プロジェクト作成
 $ cd ch02/myblog
 $ uv run django-admin startproject config backend/
 
-$ docker compose up -d
-$ docker compose build
+# 環境変数を読み込んで Docker立上げ
+$ docker compose --env-file ../../.env up --detach
+# Docker再ビルド
+$ docker compose --env-file ../../.env build
+
+$ docker compose exec web uv run backend/manage.py migrate
+# superuser 作成. 設定は docker-compose.yaml で設定した環境変数から読み込む
+# WARN は表示されるが登録はできる
+$ docker compose exec web uv run backend/manage.py createsuperuser --noinput
 ```
 
 ### 公開されるサービスでは psycopg2-binary は使わないこと
 https://www.psycopg.org/docs/install.html#psycopg-vs-psycopg-binary
 
 http://localhost:8000/
+http://localhost:8000/admin/login/
 
 ```sh
 $ mkdir backend/author
-$ docker compose run --rm web uv run django-admin startapp author backend/author
+$ docker compose exec web uv run django-admin startapp author backend/author
 $ mkdir backend/blog
-$ docker compose run --rm web uv run django-admin startapp blog backend/blog
+$ docker compose exec web uv run django-admin startapp blog backend/blog
 ```
 
 ### model メモ
@@ -25,11 +34,11 @@ $ docker compose run --rm web uv run django-admin startapp blog backend/blog
 ### ダミーデータ登録
 ```sh
 $ mkdir backend/helper
-$ docker compose run --rm web uv run django-admin startapp helper backend/helper
+$ docker compose exec web uv run django-admin startapp helper backend/helper
 
-$ docker compose run --rm web uv run backend/manage.py create_dummy_data
+$ docker compose exec web uv run backend/manage.py create_dummy_data
 
-$ docker compose run --rm web uv run backend/manage.py done_query
+$ docker compose exec web uv run backend/manage.py done_query
 ```
 
 ### SQLで確認
@@ -54,7 +63,7 @@ https://tokibito.hatenablog.com/entry/2017/12/07/235805
 
 ### fake migration
 ```sh
-$ docker compose run --rm web uv run backend/manage.py migrate author 0002 --fake
+$ docker compose exec web uv run backend/manage.py migrate author 0002 --fake
 ```
 
 ### TIMEZONE
@@ -98,16 +107,23 @@ class Article(models.Model):
     objects = ArticleManager()
 ```
 
+### UUID
+https://docs.djangoproject.com/ja/5.1/ref/models/fields/#uuidfield
+
 ### その他コマンド
 
 ```sh
-$ docker compose run --rm web uv run backend/manage.py migrate
-$ docker compose run --rm web uv run backend/manage.py makemigrations
-$ docker compose run --rm web uv run backend/manage.py createsuperuser
+$ docker compose exec web uv run backend/manage.py migrate
+$ docker compose exec web uv run backend/manage.py makemigrations
+$ docker compose exec web uv run backend/manage.py createsuperuser
+
+# 環境変数の確認
+$ docker compose exec web env
+$ docker compose --env-file ../../.env exec web env
 ```
 
 ### ruff によるコード整形
 ```sh
-$ docker compose run --rm web uv run ruff check . --fix
-$ docker compose run --rm web uv run ruff format .
+$ docker compose exec web uv run ruff check . --fix
+$ docker compose exec web uv run ruff format .
 ```
