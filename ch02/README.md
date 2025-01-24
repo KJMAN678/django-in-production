@@ -14,11 +14,13 @@ $ docker compose exec web uv run backend/manage.py migrate
 $ docker compose exec web uv run backend/manage.py createsuperuser --noinput
 ```
 
-### 公開されるサービスでは psycopg2-binary は使わないこと
-https://www.psycopg.org/docs/install.html#psycopg-vs-psycopg-binary
-
 http://localhost:8000/
 http://localhost:8000/admin/login/
+http://localhost:8000/blog/async_get_blog/
+http://localhost:8000/blog/get_blog/
+
+### 公開されるサービスでは psycopg2-binary は使わないこと
+https://www.psycopg.org/docs/install.html#psycopg-vs-psycopg-binary
 
 ```sh
 $ mkdir backend/author
@@ -207,6 +209,16 @@ https://docs.djangoproject.com/en/5.1/ref/models/querysets/#bulk-create
 ### get_or_create and update_or_create
 https://docs.djangoproject.com/en/5.1/ref/models/querysets/#get-or-create
 - リクエストが並行して行われたときに重複したオブジェクトが作成されるのを防げる
+
+### DB 設定
+https://docs.djangoproject.com/en/5.1/ref/databases/#persistent-connections
+- CONN_MAX_AGE ... 接続を継続できる秒数
+
+### Asynchronous-Queries
+https://docs.djangoproject.com/en/5.1/topics/db/queries/#asynchronous-queries
+
+### Transaction
+https://docs.djangoproject.com/en/5.1/topics/db/queries/#transactions
 
 ### その他コマンド
 

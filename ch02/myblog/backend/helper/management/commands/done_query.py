@@ -3,6 +3,8 @@ from blog.models import Blog
 from django.core.management.base import BaseCommand
 from django.db import connection
 from helper.db_debug import database_debug
+from django.db.backends.signals import connection_created
+from django.dispatch import receiver
 
 
 @database_debug
@@ -21,6 +23,14 @@ def select_related_query():
 def prefetch_related_query():
     blogs = Blog.objects.prefetch_related("author").all()
     return [blog.author.name for blog in blogs]
+
+
+@receiver(connection_created)
+def setup_query_timeout(connection, **kwargs):
+    """PostgreSQL のクエリタイムアウトを設定する"""
+    # 60秒に設定
+    with connection.cursor() as cursor:
+        cursor.execute("Set statemtnet timeou to 60000;")
 
 
 class Command(BaseCommand):
