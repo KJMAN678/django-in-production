@@ -225,7 +225,9 @@ https://docs.djangoproject.com/en/5.1/topics/db/queries/#transactions
 ```sh
 $ docker compose exec web uv run backend/manage.py migrate
 $ docker compose exec web uv run backend/manage.py makemigrations
-$ docker compose exec web uv run backend/manage.py createsuperuser
+# superuser 作成. 設定は docker-compose.yaml で設定した環境変数から読み込む
+# WARN は表示されるが登録はできる
+$ docker compose exec web uv run backend/manage.py createsuperuser --noinput
 
 # 環境変数の確認
 $ docker compose exec web env
