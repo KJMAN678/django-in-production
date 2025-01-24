@@ -20,6 +20,9 @@ class Author(models.Model):
     def get_short_bio(self):
         return f"{self.bio[:200]}"
 
+    class Meta:
+        indexes = [models.Index(fields=["name"])]
+
 
 class BlogAuthor(Author):
     class Meta:
