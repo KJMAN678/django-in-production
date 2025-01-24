@@ -14,13 +14,50 @@ $ docker compose exec web uv run backend/manage.py migrate
 $ docker compose exec web uv run backend/manage.py createsuperuser --noinput
 ```
 
-http://localhost:8000/
 http://localhost:8000/admin/login/
 
+### JSON Parser - JSON Renderer
+```mermaid
+graph LR
+    DjangoORM-->PostgresDB
+    PostgresDB-->DjangoORM
+
+    DjangoORM-->DRFSerializer2
+    style PostgresDB height:150px,width:150px
+    DRFSerializer2-->DRFJSONRenderer
+    DRFJSONRenderer--Response-->ClientApplication2
+    ClientApplication1--Request-->DRFJSONParser
+    DRFJSONParser-->DRFSerializer1
+    DRFSerializer1-->DjangoORM
+    style DjangoORM height:250px,width:50px text-align:center;
+
+    subgraph DjangoProjectUsingDRF
+        DRFJSONParser
+        DRFSerializer1
+        DRFSerializer2
+        DjangoORM
+        DRFJSONRenderer
+    end
+```
 
 ```sh
-$ mkdir backend/hoge_app
-$ docker compose exec web uv run django-admin startapp hoge_app backend/hoge_app
+$ mkdir backend/blog
+$ docker compose exec web uv run django-admin startapp blog backend/blog
+$ mkdir backend/author
+$ docker compose exec web uv run django-admin startapp author backend/author
+$ mkdir backend/helper
+$ docker compose exec web uv run django-admin startapp helper backend/helper
+```
+
+### Serializer
+```sh
+# BlogSerializer クラスの中身を確認できる
+$ docker compose exec web uv run backend/manage.py print_serializers
+```
+
+### Serializer による レコード登録
+```sh
+$ docker compose exec web uv run backend/manage.py dummy_data_register
 ```
 
 ### その他コマンド
