@@ -1,3 +1,4 @@
+from blog.models import Blog
 from blog.serializers import BlogSerializer
 from author.serializers import AuthorSerializer
 from django.core.management.base import BaseCommand
@@ -22,6 +23,19 @@ class Command(BaseCommand):
             "content": "this is content",
             "author": author_id,
         }
-        new_blog = BlogSerializer(data=input_blog_data)
+        # 登録
+        new_blog = BlogSerializer(data=[input_blog_data, input_blog_data], many=True)
         print(new_blog.is_valid())
+        new_blog.save()
+
+        update_input_data = {
+            "title": "updated blog title",
+        }
+        existing_blog = Blog.objects.latest("created_at")
+
+        # 更新
+        new_blog = BlogSerializer(
+            instance=existing_blog, data=update_input_data, partial=True
+        )
+        new_blog.is_valid()
         new_blog.save()

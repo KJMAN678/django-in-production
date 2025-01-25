@@ -60,6 +60,32 @@ $ docker compose exec web uv run backend/manage.py print_serializers
 $ docker compose exec web uv run backend/manage.py dummy_data_register
 ```
 
+### ModelSerializer を継承したクラスの Metaクラス設定
+```sh
+from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
+
+class HogeSerializer(serializer.ModelSerializer):
+    class Meta:
+        model = Hoge                            # serialize の対象モデル
+        fields = ["fuga", "hoge"]               # 指定したフィールドが対象
+        fields = "__all__"                      # すべてのフィールドが対象
+        exclude = ["update"]                    # このカラムは対象外
+        read_only_fields = ["update"]           # 読み込みのみ
+        depth = 1                               # Serializer が取得するリレーションの深さ
+        extra_kwargs = {
+            "fuga": {"write_only": True},       # True なら書き込みのみ可能
+            "hoge": {"min_length": 100},        # 指定されたフィールドの最小長
+            "hoge": {"max_length": 100},        # 指定されたフィールドの最大長
+            "fugafuga": {"required": True},     # True なら必須フィールド扱い
+            "hogehoge": {
+                "validators": UniqueValidator(  # カスタムバリデータをフィールドにセットする
+                    queryset=Hoge.objects.all()
+                )
+            }
+        }
+```
+
 ### その他コマンド
 
 ```sh
