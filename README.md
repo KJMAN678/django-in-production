@@ -23,7 +23,7 @@ DJANGO_SUPERUSER_EMAIL=""
 - [1章 Django-Rest-Framework](ch01/)
 - [2章 Django ORM](ch02/)
 - [3章 DRF による データ Serialize 処理](ch03/)
-- [(未了) 4章 Django Admin, Management Command]
+- [4章 Django Admin, Management Command](ch04/)
 - [(未了) 5章 認証認可]
 - [(未了) 6章 キャッシュ, ログ, スロットリング]
 - [(未了) 7章 ページネーション, Django シグナル, カスタムミドルウェア]
