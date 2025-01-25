@@ -2,7 +2,7 @@ from blog.serializers import BlogSerializer, CoverImageSerializer, TagsSerialize
 from author.serializers import AuthorSerializer
 from django.core.management.base import BaseCommand
 from django.db import transaction
-
+from blog.models import Blog
 
 class Command(BaseCommand):
     help = "Serializer のデータを登録する"
@@ -34,28 +34,27 @@ class Command(BaseCommand):
         new_tags = TagsSerializer(data=input_tags_data, many=True)
         new_tags.is_valid()
         new_tags.save()
-        new_tags_names = [tag["name"] for tag in new_tags.data]
 
         input_blog_data = {
             "title": "new blog title",
             "content": "this is content",
             "author": author_id,
             "cover_image": cover_image_id,
-            # "tags": new_tags.data[0]["name"],
+            "tags": [tag.id for tag in new_tags.instance],
         }
         # 登録
         new_blog = BlogSerializer(data=[input_blog_data], many=True)
-        print(new_blog.is_valid())
+        new_blog.is_valid()
         new_blog.save()
 
-        # update_input_data = {
-        #     "title": "updated blog title",
-        # }
-        # existing_blog = Blog.objects.latest("created_at")
+        update_input_data = {
+            "title": "updated blog title",
+        }
+        existing_blog = Blog.objects.latest("created_at")
 
-        # # 更新
-        # new_blog = BlogSerializer(
-        #     instance=existing_blog, data=update_input_data, partial=True
-        # )
-        # new_blog.is_valid()
-        # new_blog.save()
+        # 更新
+        new_blog = BlogSerializer(
+            instance=existing_blog, data=update_input_data, partial=True
+        )
+        new_blog.is_valid()
+        new_blog.save()

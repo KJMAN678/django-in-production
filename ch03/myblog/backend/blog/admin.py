@@ -8,7 +8,7 @@ class BlogAdmin(admin.ModelAdmin):
         "title",
         "content",
         "cover_image",
-        # "tag_names",
+        "tag_names",
         "created_at",
         "updated_at",
     ]

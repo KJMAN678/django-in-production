@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.contrib import admin
 
 
 class BaseTimeStampModel(models.Model):
@@ -22,14 +23,14 @@ class Blog(BaseTimeStampModel):
         on_delete=models.PROTECT,
         related_name="blog_cover_image",
     )
-    # tags = models.ManyToManyField("Tags", related_name="blog_tags")
+    tags = models.ManyToManyField("Tags", related_name="blog_tags")
 
     def __str__(self):
         return self.title
 
-    # @admin.display
-    # def tag_names(self):
-    #     return ", ".join([tag.name for tag in self.tags.all()])
+    @admin.display
+    def tag_names(self):
+        return ", ".join([tag.name for tag in self.tags.all()])
 
 
 class CoverImage(BaseTimeStampModel):

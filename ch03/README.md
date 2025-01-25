@@ -56,6 +56,7 @@ $ docker compose exec web uv run backend/manage.py print_serializers
 ```
 
 ### Serializer による レコード登録
+- Tag はユニーク制約があり、一度しか登録できない点に注意.
 ```sh
 $ docker compose exec web uv run backend/manage.py dummy_data_register
 ```
