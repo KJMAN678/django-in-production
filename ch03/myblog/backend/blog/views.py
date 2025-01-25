@@ -41,5 +41,5 @@ class BlogGetUpdateFilterView(generics.ListAPIView):
     ordering_fields = ["title"]
 
     def get_queryset(self):
-        queryset = Blog.objects.filter(title__contains="updated")
+        queryset = Blog.objects.filter(title__contains="title")
         return queryset

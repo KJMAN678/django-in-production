@@ -118,6 +118,9 @@ generic.RetrieveUpdateDestroyAPIView    # 単一のモデル インスタンス�
 ### filter_backends 属性
 - 並び替え等ができる
 
+### DjangoFilterBackend
+https://www.django-rest-framework.org/api-guide/filtering/#api-guide
+
 ### その他コマンド
 
 ```sh
