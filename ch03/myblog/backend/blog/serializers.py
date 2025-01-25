@@ -63,3 +63,143 @@ class TagsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tags
         fields = "__all__"
+
+
+class BASerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ["name", "bio"]
+
+
+class BlogCustomSerializer(serializers.ModelSerializer):
+    author_details = BASerializer(source="author")
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
+
+
+class BlogCustom2Serializer(serializers.ModelSerializer):
+    word_count = serializers.SerializerMethodField()
+
+    def get_word_count(self, obj):
+        """メソッドの名前は get_<field name> とする必要がある"""
+        return len(obj.content.split())
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
+
+
+class BlogCustom3Serializer(serializers.ModelSerializer):
+    """メソッド名を get_<field name>以外にする場合は、引数 method_name で指定する必要あり"""
+
+    word_count = serializers.SerializerMethodField(method_name="use_custom_word_count")
+
+    def use_custom_word_count(self, obj):
+        return len(obj.content.split())
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
+
+
+class BlogCustom4Serializer(serializers.ModelSerializer):
+    # validate_<field name> というメソッドを定義すると、
+    # is_valid() メソッドが呼び出されるたびに実行される.
+    def validate_title(self, value):
+        """
+        タイトル内にアンダースコアが含まれている場合は、is_valid()実行時にエラーを発生させる
+        """
+        print("validate_title method")
+        if "_" in value:
+            raise serializers.ValidationError("illegal char")
+        raise value
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
+
+
+# Meta クラスの extra_kwargs で、各フィールドに対してバリデーションを追加することもできる
+def demo_func_validator(attr):
+    print("func val")
+    if "_" in attr:
+        raise serializers.ValidationError("illegal char")
+    return attr
+
+
+class BlogCustom5Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blog
+        fields = "__all__"
+        extra_kwargs = {
+            "title": {
+                "validators": [demo_func_validator],
+            },
+            "content": {
+                "validators": [demo_func_validator],
+            },
+        }
+
+
+# Meta クラスの validators に関数を指定することで、全体のバリデーションを追加する
+class BlogCustom6Serializer(serializers.ModelSerializer):
+    def validate(self, attrs):
+        if attrs["title"] == attrs["content"]:
+            raise serializers.ValidationError("Title and content cannot have value")
+        return attrs
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
+
+
+def custom_obj_validator(attrs):
+    print("custom object validator")
+    if attrs["title"] == attrs["content"]:
+        raise serializers.ValidationError("Title and content cannot have the same")
+    return attrs
+
+
+class BlogCustom7Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blog
+        fields = "__all__"
+        validators = [custom_obj_validator]
+
+
+def func_validator(attr):  # 最初に呼ばれる
+    print("func val")
+    if "*" in attr:
+        raise serializers.ValidationError("Illegal char")
+    return attr
+
+
+class BlogCustom8Serializer(serializers.ModelSerializer):
+    def validate_title(self, value):  # 2番目に呼ばれる
+        print("validate_title method")
+        if "_" in value:
+            raise serializers.ValidationError("Illegal char")
+        return value
+
+    def validate(self, attrs):  # 3番目に呼ばれる
+        print("main validate method")
+        return attrs
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
+        extra_kwargs = {
+            "title": {
+                "validators": [func_validator],
+            }
+        }
+
+
+# Meta クラスの validators に空リストを指定することで、全体のバリデーションを無効にする
+class BlogCustom9Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blog
+        fields = "__all__"
+        validators = []
