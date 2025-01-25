@@ -3,11 +3,10 @@ from blog.models import Blog, CoverImage, Tags
 from author.models import Author
 from rest_framework import validators
 
+
 class BlogSerializer(serializers.ModelSerializer):
     # ForeignKey の対象のフィールドは, PrimaryKeyRelatedField で Serializer を指定する
-    author = serializers.PrimaryKeyRelatedField(
-        queryset=Author.objects.all()
-    )
+    author = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all())
     # ManyToManyField の対象のフィールドは, PrimaryKeyRelatedField を使い,
     # many=True, allow_empty=True を指定する
     tags = serializers.PrimaryKeyRelatedField(
@@ -19,12 +18,15 @@ class BlogSerializer(serializers.ModelSerializer):
     # UniqueValidator を指定する
     cover_image = serializers.PrimaryKeyRelatedField(
         queryset=CoverImage.objects.all(),
+        # MEMO: Blog モデルの cover_image フィールドのrelated_name を blog_cover_image に変更すると、
+        # 下記のエラーになる
+        # django.core.exceptions.FieldError: Cannot resolve keyword 'cover_image'
+        # into field. Choices are: blog_cover_image, created_at, id, image_link, updated_at
         validators=[
             validators.UniqueValidator(
                 queryset=CoverImage.objects.all(),
-                message='重複！',
             )
-        ]
+        ],
     )
 
     def create(self, validated_data):
@@ -39,7 +41,16 @@ class BlogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Blog
-        fields = "__all__"
+        fields = [
+            "id",
+            "title",
+            "content",
+            "author",
+            "cover_image",
+            "tags",
+            "created_at",
+            "updated_at",
+        ]
 
 
 class CoverImageSerializer(serializers.ModelSerializer):

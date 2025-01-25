@@ -4,6 +4,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from blog.models import Blog
 
+
 class Command(BaseCommand):
     help = "Serializer のデータを登録する"
 
@@ -32,7 +33,7 @@ class Command(BaseCommand):
             {"name": "tag2"},
         ]
         new_tags = TagsSerializer(data=input_tags_data, many=True)
-        new_tags.is_valid()
+        print(new_tags.is_valid())
         new_tags.save()
 
         input_blog_data = {
@@ -43,9 +44,12 @@ class Command(BaseCommand):
             "tags": [tag.id for tag in new_tags.instance],
         }
         # 登録
-        new_blog = BlogSerializer(data=[input_blog_data], many=True)
-        new_blog.is_valid()
-        new_blog.save()
+        new_blog = BlogSerializer(data=input_blog_data)
+        if new_blog.is_valid():
+            new_blog.save()
+            print("Blog created successfully")
+        else:
+            print(new_blog.errors)
 
         update_input_data = {
             "title": "updated blog title",

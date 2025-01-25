@@ -15,15 +15,16 @@ class BaseTimeStampModel(models.Model):
 class Blog(BaseTimeStampModel):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    author = models.ForeignKey(
-        "author.Author", related_name="author_blogs", on_delete=models.PROTECT
-    )
+    author = models.ForeignKey("author.Author", on_delete=models.PROTECT)
     cover_image = models.OneToOneField(
         "CoverImage",
+        # MEMO: これが blog_cover_image だとエラーになる
+        related_name="cover_image",
         on_delete=models.PROTECT,
-        related_name="blog_cover_image",
     )
-    tags = models.ManyToManyField("Tags", related_name="blog_tags")
+    tags = models.ManyToManyField(
+        "Tags",
+    )
 
     def __str__(self):
         return self.title
