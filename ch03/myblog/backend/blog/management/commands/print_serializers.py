@@ -1,7 +1,7 @@
 from pprint import pprint
 
 from blog.models import Blog
-from blog.serializers import BlogSerializer
+from blog.serializers import BlogSerializer, BlogCustom12Serializer
 from django.core.management.base import BaseCommand
 
 
@@ -19,3 +19,10 @@ class Command(BaseCommand):
         multiple_blogs = Blog.objects.all()
         blog_objs = BlogSerializer(instance=multiple_blogs, many=True)
         pprint(blog_objs.data)
+
+        # serializer 初期化中に context 引数を介して、すべてのシリアライザーメソッドで使用できる値を渡す事ができる
+        input_data = BlogCustom12Serializer(
+            data={"title": "abc"},
+            context={"request": "some value"},
+        )
+        input_data.is_valid()

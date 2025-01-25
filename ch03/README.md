@@ -15,6 +15,9 @@ $ docker compose exec web uv run backend/manage.py createsuperuser --noinput
 ```
 
 http://localhost:8000/admin/login/
+http://localhost:8000/blog/blog_get_create/
+http://localhost:8000/blog/blog_get_update/
+http://localhost:8000/blog/blog_get_update_filter/
 
 ### JSON Parser - JSON Renderer
 ```mermaid
@@ -86,6 +89,34 @@ class HogeSerializer(serializer.ModelSerializer):
             }
         }
 ```
+
+### カスタムフィールド
+https://www.django-rest-framework.org/api-guide/fields/#custom-fields
+
+### フィールドを動的に変更する
+https://www.django-rest-framework.org/api-guide/serializers/#dynamically-modifying-fields
+
+### Class-based Views
+https://www.django-rest-framework.org/tutorial/3-class-based-views/
+
+### GenericAPIView
+https://www.django-rest-framework.org/api-guide/generic-views/#concrete-view-classes
+```python
+from rest_framework import generics
+
+generic.CreateAPIView                   # 作成専用のエンドポイント
+generic.ListAPIView                     # 複数のモデルインスタンスを表す読み取り専用エンドポイント
+generic.RetrieveAPIView                 # 単一のモデル インスタンスを表す読み取り専用エンドポイントre
+generic.DestroyAPIView                  # 単一のモデルインスタンスの削除専用エンドポイント
+generic.UpdateAPIView                   # 単一のモデルインスタンスの更新専用エンドポイント
+generic.ListCreateAPIView               # 複数のモデルインスタンスを表す読み取り/書き込みエンドポイント
+generic.RetrieveUpdateAPIView           # 単一のモデル インスタンスを表す読み取りまたは更新エンドポイント
+generic.RetrieveDestroyAPIView          # 単一のモデル インスタンスを表す読み取りまたは削除エンドポイント
+generic.RetrieveUpdateDestroyAPIView    # 単一のモデル インスタンスを表す読み取り、書き込み、削除エンドポイント
+```
+
+### filter_backends 属性
+- 並び替え等ができる
 
 ### その他コマンド
 

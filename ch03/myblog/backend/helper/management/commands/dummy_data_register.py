@@ -20,9 +20,7 @@ class Command(BaseCommand):
         new_author.save()
         author_id = new_author.data["id"]
 
-        input_cover_image_data = {
-            "image_link": "http://www.example.com",
-        }
+        input_cover_image_data = {"image_link": "http://www.example.com"}
         new_cover_image = CoverImageSerializer(data=input_cover_image_data)
         new_cover_image.is_valid()
         new_cover_image.save()

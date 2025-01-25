@@ -203,3 +203,62 @@ class BlogCustom9Serializer(serializers.ModelSerializer):
         model = Blog
         fields = "__all__"
         validators = []
+
+
+# to_internal_value メソッドをオーバーライドすることで、データのバリデーション前に処理を追加できる
+class BlogCustom10Serializer(serializers.ModelSerializer):
+    def to_internal_value(self, data):
+        print("before validation data", data)
+        return super().to_internal_value(data)
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
+
+
+# to_representation メソッドをオーバーライドすることで、Model オブジェクト　を Python 型に変換する前に処理を追加できる
+class BlogCustom11Serializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        resp = super().to_representation(instance)
+        resp["title"] = resp["title"].upper()
+        return resp
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
+
+
+# serializer 初期化中に context 引数を介して、すべてのシリアライザーメソッドで使用できる値を渡す事ができる
+class BlogCustom12Serializer(serializers.ModelSerializer):
+    def to_internal_value(self, data):
+        print("Printing context -", self.context)
+        return super().to_internal_value(data)
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
+
+
+# 作成者が作成したタグのみをブログに追加できるようにしたい.
+# context と カスタムフィールドの概念を利用して実行できる
+# CustomPKRelatedField を作成し、デフォルトの get_queryset メソッドをオーバーライドする
+# CustomPKRelatedField は、リクエストされたユーザーが作成したタグを自動的にフィルタリングし、
+# ユーザーが作成していないタグを選択できないようにする
+class CustomPKRelatedField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        # context value
+        req = self.context.get("request", None)
+        # retrieve default filter
+        queryset = super().get_queryset()
+        if not req:
+            return None
+        return queryset.filter(user=req.user)
+
+
+# additional filter
+class BlogCustom13Serializer(serializers.ModelSerializer):
+    tags = CustomPKRelatedField(queryset=Tags.objects.all())
+
+    class Meta:
+        model = Blog
+        fields = "__all__"
