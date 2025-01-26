@@ -1,7 +1,7 @@
 [project]
-name = "django-in-production-04"
+name = "django-in-production-05"
 version = "0.1.0"
-description = "django-in-production 4章の写経"
+description = "django-in-production 5章の写経"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
