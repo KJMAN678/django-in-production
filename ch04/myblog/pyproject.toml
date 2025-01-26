@@ -16,4 +16,5 @@ dev-dependencies = [
     "ruff==0.9.2",
     "pytest==8.3.4",
     "pytest-django==4.9.0",
+    "django-debug-toolbar==4.4.6",
 ]

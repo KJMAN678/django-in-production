@@ -13,7 +13,7 @@ $ docker compose exec web uv run backend/manage.py migrate
 # WARN は表示されるが登録はできる
 $ docker compose exec web uv run backend/manage.py createsuperuser --noinput
 ```
-
+http://localhost:8000/index/
 http://localhost:8000/admin/login/
 
 ```sh
@@ -30,6 +30,9 @@ $ docker compose exec web uv run django-admin startapp helper backend/helper
 ```sh
 $ docker compose exec web uv run backend/manage.py dummy_data_register
 ```
+
+### awesome-django-admin
+https://github.com/originalankur/awesome-django-admin
 
 ### その他コマンド
 
