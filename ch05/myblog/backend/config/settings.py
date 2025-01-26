@@ -31,7 +31,12 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "debug_toolbar",
 ]
-CUSTOM_APPS = ["blog", "author", "helper"]
+CUSTOM_APPS = [
+    "blog",
+    "author",
+    "helper",
+    "custom_user",
+]
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -130,3 +135,5 @@ DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": lambda request: True,
 }
 RENDER_PANELS = True
+
+AUTH_USER_MODEL = "custom_user.CustomUser"

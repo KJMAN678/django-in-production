@@ -30,6 +30,25 @@ $ docker compose exec web uv run django-admin startapp helper backend/helper
 $ docker compose exec web uv run backend/manage.py dummy_data_register
 ```
 
+### セッション
+https://docs.djangoproject.com/en/5.1/topics/http/sessions/
+
+### ユーザーモデルのカスタマイズ
+
+1. User　モデルと1対1のモデル(例えば UserProfile モデル)を作成して拡張する.
+  - シンプルでクリーンなソリューション
+2. AbstractUser モデルと AbstractBaseUser モデルを使って拡張する
+  - AbstractUser モデルか AbstractBaseUser モデルを継承してカスタムユーザーモデルを作成する
+     - AbstractUser ... User モデルの username  フィールドを更新する場合にのみ使う
+     - AbstractBaseUser ... User テーブルの「すべてのフィールドを最初から作成する場合に使用する
+
+```sh
+$ mkdir backend/custom_user
+$ docker compose exec web uv run django-admin startapp custom_user backend/custom_user
+```
+- 完全な例
+https://docs.djangoproject.com/en/5.1/topics/auth/customizing/#a-full-example
+
 ### その他コマンド
 
 ```sh
