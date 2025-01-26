@@ -34,6 +34,15 @@ $ docker compose exec web uv run backend/manage.py dummy_data_register
 ### awesome-django-admin
 https://github.com/originalankur/awesome-django-admin
 
+### Json 表示用ヴィジェット
+https://github.com/jmrivas86/django-json-widget
+
+### Django Custom Command
+```sh
+$ docker compose exec web uv run backend/manage.py total_blogs
+$ docker compose exec web uv run backend/manage.py custom_command_info 12 45 --custom 99
+```
+
 ### その他コマンド
 
 ```sh
