@@ -12,19 +12,26 @@ class CustomUserManager(BaseUserManager):
         # implement create user logic
         user = self.model(phone_no=phone_no, **kwargs)
         user.set_password(password)
+        user.is_staff = True
         user.save()
         return user
 
     def create_superuser(self, phone_no, password, **kwargs):
         # create superuser
-        self.create_user(phone_no, password)
+        user = self.create_user(phone_no, password, **kwargs)
+        user.is_superuser = True
+        user.save()
+        return user
 
 
 class CustomUser(AbstractUser):
     username = None
     phone_no = models.CharField(unique=True, max_length=20)
     city = models.CharField(max_length=40)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     USERNAME_FIELD = "phone_no"
+    REQUIRED_FIELDS = []
     objects = CustomUserManager()
 
 

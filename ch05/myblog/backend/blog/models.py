@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 
 
 class Blog(models.Model):
@@ -17,6 +18,10 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
+
+    @admin.display
+    def tag_names(self):
+        return ", ".join([tag.name for tag in self.tags.all()])
 
 
 class BaseTimeStampModel(models.Model):

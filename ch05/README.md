@@ -11,7 +11,8 @@ $ docker compose --env-file ../../.env build
 $ docker compose exec web uv run backend/manage.py migrate
 # superuser 作成. 設定は docker-compose.yaml で設定した環境変数から読み込む
 # WARN は表示されるが登録はできる
-$ docker compose exec web uv run backend/manage.py createsuperuser --noinput
+# カスタムユーザーモデルを利用しており、ユーザーを pnohe_no で識別しているので phone_no を別途設定している
+$ docker compose exec web uv run backend/manage.py createsuperuser --noinput --phone_no 08087654321
 ```
 http://127.0.0.1:8000/
 http://127.0.0.1:8000/admin/login/
