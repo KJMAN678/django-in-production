@@ -14,7 +14,8 @@ $ docker compose exec web uv run backend/manage.py migrate
 # カスタムユーザーモデルを利用しており、ユーザーを pnohe_no で識別しているので phone_no を別途設定している
 $ docker compose exec web uv run backend/manage.py createsuperuser --noinput --phone_no 08087654321
 ```
-http://127.0.0.1:8000/
+http://127.0.0.1:8000/blog/update_blog_title/?id=1
+http://127.0.0.1:8000/blog/blog_view/
 http://127.0.0.1:8000/admin/login/
 
 ```sh
@@ -49,6 +50,12 @@ $ docker compose exec web uv run django-admin startapp custom_user backend/custo
 ```
 - 完全な例
 https://docs.djangoproject.com/en/5.1/topics/auth/customizing/#a-full-example
+
+### Custom permissions
+https://www.django-rest-framework.org/api-guide/permissions/#custom-permissions
+
+### Cloudflare Report of Web Traffic
+https://radar.cloudflare.com/traffic?range=28d
 
 ### その他コマンド
 

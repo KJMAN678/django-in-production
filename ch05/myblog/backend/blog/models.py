@@ -23,6 +23,12 @@ class Blog(models.Model):
     def tag_names(self):
         return ", ".join([tag.name for tag in self.tags.all()])
 
+    class Meta:
+        permissions = [
+            ("update_title", "Can update the title of the blog"),
+            ("update_content", "Can update the content of blog"),
+        ]
+
 
 class BaseTimeStampModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
