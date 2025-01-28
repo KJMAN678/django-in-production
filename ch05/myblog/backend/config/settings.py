@@ -29,6 +29,7 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",
+    "rest_framework.authtoken",
     "debug_toolbar",
 ]
 CUSTOM_APPS = [
@@ -136,4 +137,14 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 RENDER_PANELS = True
 
-AUTH_USER_MODEL = "custom_user.CustomUser"
+# AUTH_USER_MODEL = "custom_user.CustomUser"
+
+# トークンベースの認証を使用するための設定
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}

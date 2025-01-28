@@ -16,6 +16,17 @@ $ docker compose exec web uv run backend/manage.py createsuperuser --noinput --p
 ```
 http://127.0.0.1:8000/blog/update_blog_title/?id=1
 http://127.0.0.1:8000/blog/blog_view/
+
+### トークンベースのログイン
+http://127.0.0.1:8000/api/auth/v1/login/
+- POST で xxxx の部分を更新して下記を貼り付けると tokenが返ってくる
+```sh
+{
+"username": "xxxx",
+"password": "xxxx"
+}
+```
+
 http://127.0.0.1:8000/admin/login/
 
 ```sh
