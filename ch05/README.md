@@ -68,6 +68,12 @@ https://www.django-rest-framework.org/api-guide/permissions/#custom-permissions
 ### Cloudflare Report of Web Traffic
 https://radar.cloudflare.com/traffic?range=28d
 
+### API Reference
+https://www.django-rest-framework.org/api-guide/permissions/#api-reference
+
+### Custom authentication
+
+
 ### その他コマンド
 
 ```sh
