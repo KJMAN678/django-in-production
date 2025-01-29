@@ -72,7 +72,39 @@ https://radar.cloudflare.com/traffic?range=28d
 https://www.django-rest-framework.org/api-guide/permissions/#api-reference
 
 ### Custom authentication
+https://www.django-rest-framework.org/api-guide/authentication/#custom-authentication
 
+### DRF のトークンベースログインの欠点
+- 複数デバイスログインをサポートしていない
+  - 複数デバイスに同じトークンをもたせるのは、セキュリティ上問題がある
+- 暗号化されていないトークンがデータベースに保存される
+  - データベースがハッキングされると, すべてのユーザーにアクセスされてしまう
+- トークンの有効期限をサポートしていない
+- すべてのリクエストでデータベースを検索してしまう
+- トークンを介してフロントエンドにデータを送信する方法がない
+- ソーシャルログインに対応していない
+
+### django-rest-knox
+https://github.com/jazzband/django-rest-knox
+- マルチデバイスログインができる
+- セッション管理ができる
+- トークンを暗号形式で保存できる
+- トークンの有効期限が設定できる
+
+### JSON Web Token (JWT)
+https://jwt.io/introduction
+https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html
+- 検証のためにデータベース検索を必要としない
+- 発行されたJWTトークン自体に情報を追加して、クライアントがユーザーに関する情報を取得するために利用できる
+
+### ソーシャルログイン
+https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
+
+### 認証用ライブラリはあとから変更しづらいので選択には注意
+https://github.com/pennersr/django-allauth
+https://github.com/sunscrapers/djoser
+https://github.com/iMerica/dj-rest-auth
+https://github.com/jazzband/django-rest-knox
 
 ### その他コマンド
 
