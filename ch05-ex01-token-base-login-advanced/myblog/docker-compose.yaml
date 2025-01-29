@@ -1,0 +1,36 @@
+services:
+  web:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - "SECRET_KEY=${SECRET_KEY}"
+      - "DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}"
+      - "DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}"
+      - "DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}"
+      - "POSTGRES_HOSTNAME=${POSTGRES_HOSTNAME}"
+      - "POSTGRES_DB_NAME=${POSTGRES_DB_NAME}"
+      - "POSTGRES_USERNAME=${POSTGRES_USERNAME}"
+      - "POSTGRES_PORT=${POSTGRES_PORT}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+
+    command: uv run backend/manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17
+    ports:
+        - "5432:5432"
+    environment:
+      - "POSTGRES_DB=${POSTGRES_DB_NAME}"
+      - "POSTGRES_USER=${POSTGRES_USERNAME}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
