@@ -5,7 +5,7 @@ services:
     volumes:
       - .:/app
     ports:
-      - "8000:8000"
+      - "${DJANGO_PORT}:${DJANGO_PORT}"
     environment:
       - "SECRET_KEY=${SECRET_KEY}"
       - "DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}"
@@ -17,14 +17,14 @@ services:
       - "POSTGRES_PORT=${POSTGRES_PORT}"
       - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
 
-    command: uv run backend/manage.py runserver 0.0.0.0:8000
+    command: uv run backend/manage.py runserver 0.0.0.0:${DJANGO_PORT}
     depends_on:
       - db
 
   db:
     image: postgres:17
     ports:
-        - "5432:5432"
+        - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     environment:
       - "POSTGRES_DB=${POSTGRES_DB_NAME}"
       - "POSTGRES_USER=${POSTGRES_USERNAME}"
