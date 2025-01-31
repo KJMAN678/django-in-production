@@ -10,17 +10,16 @@ $ npx create-next-app@latest frontend/ --ts --eslint --tailwind --src-dir --use-
 $ uv run django-admin startproject config backend/
 
 # 環境変数を読み込んで Docker立上げ
+$ docker compose --env-file ../../.env build --no-cache
 $ docker compose --env-file ../../.env up --detach
-# Docker再ビルド
-$ docker compose --env-file ../../.env build
 
-$ docker compose exec web uv run backend/manage.py migrate
+$ docker compose --env-file ../../.env exec backend uv run manage.py migrate
 # superuser 作成. 設定は docker-compose.yaml で設定した環境変数から読み込む
 # WARN は表示されるが登録はできる
-$ docker compose exec web uv run backend/manage.py createsuperuser --noinput
+$ docker compose --env-file ../../.env exec backend uv run manage.py createsuperuser --noinput
 
 # キャッシュの削除
-$ docker builder prune
+$ docker builder prune -f
 ```
 ### フロントエンド
 http://127.0.0.1:3000/
@@ -45,7 +44,7 @@ $ docker compose --env-file ../../.env exec backend uv run django-admin startapp
 
 ### ダミーデータの登録
 ```sh
-$ docker compose --env-file ../../.env exec backend uv run backend/manage.py dummy_data_register
+$ docker compose --env-file ../../.env exec backend uv run manage.py dummy_data_register
 ```
 
 ### django-rest-knox を使う
@@ -67,11 +66,11 @@ $ docker compose --env-file ../../.env exec frontend npx npm-check-updates -u
 $ docker compose --env-file ../../.env exec frontend npm install
 
 # バックエンド
-$ docker compose --env-file ../../.env exec backend uv run backend/manage.py migrate
-$ docker compose --env-file ../../.env exec backend uv run backend/manage.py makemigrations
+$ docker compose --env-file ../../.env exec backend uv run manage.py migrate
+$ docker compose --env-file ../../.env exec backend uv run manage.py makemigrations
 # superuser 作成. 設定は docker-compose.yaml で設定した環境変数から読み込む
 # WARN は表示されるが登録はできる
-$ docker compose --env-file ../../.env exec backend uv run backend/manage.py createsuperuser --noinput
+$ docker compose --env-file ../../.env exec backend uv run manage.py createsuperuser --noinput
 
 # 環境変数の確認
 $ docker compose --env-file ../../.env exec backend env
@@ -84,6 +83,6 @@ $ docker compose --env-file ../../.env exec backend env
 $ docker compose --env-file ../../.env exec frontend npm run lint
 
 # バックエンド
-$ docker compose --env-file ../../.env exec backend uv run ruff check ./backend --fix
-$ docker compose --env-file ../../.env exec backend uv run ruff format ./backend
+$ docker compose --env-file ../../.env exec backend uv run ruff check . --fix
+$ docker compose --env-file ../../.env exec backend uv run ruff format .
 ```
