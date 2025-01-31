@@ -1,9 +1,21 @@
 services:
-  web:
+
+  frontend:
     build:
-      context: .
+      context: ./frontend
     volumes:
-      - .:/app
+      - ./frontend:/app/frontend
+    ports:
+      - "${NEXTJS_PORT}:${NEXTJS_PORT}"
+    command: npx next dev
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/app/backend
     ports:
       - "${DJANGO_PORT}:${DJANGO_PORT}"
     environment:
@@ -17,7 +29,7 @@ services:
       - "POSTGRES_PORT=${POSTGRES_PORT}"
       - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
 
-    command: uv run backend/manage.py runserver 0.0.0.0:${DJANGO_PORT}
+    command: uv run manage.py runserver 0.0.0.0:${DJANGO_PORT}
     depends_on:
       - db
 
