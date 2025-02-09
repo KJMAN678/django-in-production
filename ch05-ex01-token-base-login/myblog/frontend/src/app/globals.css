@@ -19,3 +19,18 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+input {
+  border: 1px solid #ccc;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+button {
+  -webkit-appearance: button;
+  border: 1px solid gray;
+  background-color: lightgray;
+  color: #333;
+  padding: 4px 12px;
+  border-radius: 4px;
+}

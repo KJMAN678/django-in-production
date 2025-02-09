@@ -35,12 +35,15 @@ export default function LoginPage() {
     return (
         <div>
             <h1>Login</h1>
-
             <form onSubmit={onSubmit}>
-                <label>username</label>
-                <input type="text" name="username" />
-                <label>password</label>
-                <input type="password" name="password" />
+                <div>
+                    <label>username</label>
+                    <input type="text" name="username" />
+                </div>
+                <div>
+                    <label>password</label>
+                    <input type="password" name="password" />
+                </div>
                 <button type="submit">Submit</button>
             </form>
         </div>

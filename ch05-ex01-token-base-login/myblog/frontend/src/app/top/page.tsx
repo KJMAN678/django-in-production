@@ -57,13 +57,11 @@ export default function Page() {
 
     return (
         <div>
-            <h1>トップページ</h1>
             <button onClick={handleLogout}>
                 ログアウト
             </button>
-
-            <h1>ダッシュボード</h1>
-            <p>ようこそ, {user.username} さん</p>
+            ようこそ, {user.username} さん
+            <h1>トップページ</h1>
         </div>
     );
 }
