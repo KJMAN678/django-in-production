@@ -57,7 +57,7 @@ wheels = [
 ]
 
 [[package]]
-name = "django-in-production-05-ex01"
+name = "django-in-production-05-ex02"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
