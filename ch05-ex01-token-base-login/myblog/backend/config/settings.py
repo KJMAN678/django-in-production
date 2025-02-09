@@ -34,6 +34,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "knox",
     "debug_toolbar",
+    "corsheaders",
 ]
 CUSTOM_APPS = [
     "blog",
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -155,13 +157,17 @@ KNOX_TOKEN_MODEL = "knox.AuthToken"
 REST_KNOX = {
     "SECURE_HASH_ALGORITHM": "hashlib.sha512",
     "AUTH_TOKEN_CHARACTER_LENGTH": 64,
-    "TOKEN_TTL": timedelta(hours=10),
+    "TOKEN_TTL": timedelta(minutes=30),  # トークンの有効期限
     "USER_SERIALIZER": "knox.serializers.UserSerializer",
     "TOKEN_LIMIT_PER_USER": None,
-    "AUTO_REFRESH": False,
+    "AUTO_REFRESH": True,
     "AUTO_REFRESH_MAX_TTL": None,
     "MIN_REFRESH_INTERVAL": 60,
     "AUTH_HEADER_PREFIX": "Token",
     "EXPIRY_DATETIME_FORMAT": api_settings.DATETIME_FORMAT,
     "TOKEN_MODEL": "knox.AuthToken",
 }
+
+# frontend と backend の接続設定
+CORS_ORIGIN_WHITELIST = ("http://127.0.0.1:3000",)
+CORS_ALLOW_CREDENTIALS = True
