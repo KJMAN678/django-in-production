@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Top Page</title>
+    </head>
+    <body>
+        {% if user.is_authenticated %}
+            <form action="http://127.0.0.1:8000/accounts/logout/" method="get">
+                <button type="submit">Logoutページへ</button>
+            </form>
+        {% else %}
+            <form action="http://127.0.0.1:8000/accounts/login/" method="get">
+                <button type="submit">Loginページへ</button>
+            </form>
+        {% endif %}
+        <h1>Top Page!</h1>
+    </body>
+</html>
