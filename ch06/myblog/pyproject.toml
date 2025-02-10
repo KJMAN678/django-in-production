@@ -1,0 +1,22 @@
+[project]
+name = "django-in-production-06"
+version = "0.1.0"
+description = "django-in-production 6章"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "Django==5.1.5",
+    "psycopg2-binary==2.9.10",
+    "djangorestframework==3.15.2",
+    "redis==5.2.1",
+    "django-cacheops==7.1",
+]
+
+[tool.uv]
+link-mode = "copy"
+dev-dependencies = [
+    "ruff==0.9.2",
+    "pytest==8.3.4",
+    "pytest-django==4.9.0",
+    "django-debug-toolbar==5.0.1",
+]
