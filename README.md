@@ -25,6 +25,8 @@ DJANGO_SUPERUSER_EMAIL=""
 - [3章 DRF による データ Serialize 処理](ch03/)
 - [4章 Django Admin, Management Command](ch04/)
 - [5章 認証認可](ch05/)
+  - [５章 追加検証 バックエンド django-rest-knox, フロントエンド Next.js でトークン認証をやってみた](ch05-ex01-token-base-login/)
+  - [５章 追加検証 all-auth で Google のソーシャルログインをやってみた](ch05-ex02-social-login/)
 - [(未了) 6章 キャッシュ, ログ, スロットリング]
 - [(未了) 7章 ページネーション, Django シグナル, カスタムミドルウェア]
 - [(未了) 8章 Celery による非同期処理]
