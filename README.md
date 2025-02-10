@@ -17,6 +17,24 @@ SECRET_KEY=""
 DJANGO_SUPERUSER_PASSWORD=""
 DJANGO_SUPERUSER_USERNAME=""
 DJANGO_SUPERUSER_EMAIL=""
+DJANGO_PORT=""
+```
+- DBに使うPostgreSQL の設定
+```sh
+POSTGRES_HOSTNAME=""
+POSTGRES_DB_NAME=""
+POSTGRES_USERNAME=""
+POSTGRES_PORT=""
+POSTGRES_PASSWORD=""
+```
+- frontend に使う next.js のポート
+```sh
+NEXTJS_PORT=""
+```
+- キャッシュサーバーとしての redis の設定
+```sh
+REDIS_PORT=""
+REDIS_PASSWORD=""
 ```
 
 ### Chapter
