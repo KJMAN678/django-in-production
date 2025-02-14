@@ -154,3 +154,20 @@ CACHEOPS_REDIS = {
     "socket_timeout": 3,
     "password": os.environ.get("REDIS_PASSWORD"),
 }
+
+# 特定のテーブルのクエリをキャッシュすることができる
+# 下記の場合は、auth user テーブルのすべての get クエリをキャッシュする
+CACHEOPS = {
+    "auth.user": {"ops": "get", "timeout": 60 * 15},
+    "auth.*": {"ops": {"fetch", "get"}, "timeout": 60 * 60},
+    "blog.blog": {"ops": "all", "timeout": 60 * 60},
+}
+
+# スロットリング設定(APIのアクセス制限)
+REST_FRAMEWORK = {
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "100/day",  # anon は未認証ユーザーのリクエスト
+        "user": "1000/day",  # user は認証ユーザーのリクエスト
+        "scope": "10000/day",
+    }
+}

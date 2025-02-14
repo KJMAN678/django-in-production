@@ -19,6 +19,7 @@ $ docker builder prune -f
 ```
 - author_id が 1のブログを取得
 http://127.0.0.1:8000/blog/blogs/?author_id=1
+http://127.0.0.1:8000/blog/blogs_auto_invalidation/?author_id=1
 
 http://127.0.0.1:8000/admin/login/
 
@@ -61,6 +62,17 @@ get_all_blogs.invalidate(12)
 get_all_blogs.invalidate()
 ```
 
+### 本番環境でキャッシュを実装する場合の注意点
+- 本番環境でキャッシュを実装する場合は、可用性の高い Redis クラスターを使うこと
+- AWS の ElasticCache や Redis Lab などのマネージド・サービスを使い、マスター・スレーブ構成を使用すること
+  - マスター・スレーブ構成とは、複数の機器やシステムを連携して動作させる際に、1つをマスター、残りをスレーブとして役割分担する方式
+- 読み取りの多いシステムでキャッシュがダウンすると、すべての読み取りクエリがデータベースにヒットし、カスケード効果が発生してシステム全体がダウンする可能性があるため.
+
+### Django での スロットリング
+- スロットリングとは、一定の時間枠でユーザーが実行できる API リクエストの数を制限する
+  - [APIスロットリング制限](https://developer.amazon.com/ja/docs/amazon-pay-api-v2/api-throttling-limits.html)
+https://www.django-rest-framework.org/api-guide/throttling/
+
 ### その他コマンド
 
 ```sh
@@ -79,5 +91,3 @@ $ docker compose --env-file ../../.env exec web env
 $ docker compose --env-file ../../.env exec web uv run ruff check . --fix
 $ docker compose --env-file ../../.env exec web uv run ruff format .
 ```
-
-docker exec -it 3f2b7fd4bafd04db1ac34974aa696e5f4d82169753a41b00dba8e40f045d4f0e redis-cli
