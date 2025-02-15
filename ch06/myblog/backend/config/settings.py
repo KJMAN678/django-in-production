@@ -169,5 +169,6 @@ REST_FRAMEWORK = {
         "anon": "100/day",  # anon は未認証ユーザーのリクエスト
         "user": "1000/day",  # user は認証ユーザーのリクエスト
         "scope": "10000/day",
+        "blog_limit": "1000/day",
     }
 }

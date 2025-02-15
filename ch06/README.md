@@ -20,6 +20,9 @@ $ docker builder prune -f
 - author_id が 1のブログを取得
 http://127.0.0.1:8000/blog/blogs/?author_id=1
 http://127.0.0.1:8000/blog/blogs_auto_invalidation/?author_id=1
+http://127.0.0.1:8000/blog/blogs_anon_view/
+http://127.0.0.1:8000/blog/blogs_user_view/
+http://127.0.0.1:8000/blog/blogs_scoped_view/
 
 http://127.0.0.1:8000/admin/login/
 
