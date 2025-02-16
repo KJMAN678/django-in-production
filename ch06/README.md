@@ -34,6 +34,8 @@ $ mkdir backend/author
 $ docker compose --env-file ../../.env exec web uv run django-admin startapp author backend/author
 $ mkdir backend/helper
 $ docker compose --env-file ../../.env exec web uv run django-admin startapp helper backend/helper
+$ mkdir backend/common
+$ docker compose --env-file ../../.env exec web uv run django-admin startapp common backend/common
 ```
 
 ### ダミーデータの登録
@@ -75,6 +77,17 @@ get_all_blogs.invalidate()
 - スロットリングとは、一定の時間枠でユーザーが実行できる API リクエストの数を制限する
   - [APIスロットリング制限](https://developer.amazon.com/ja/docs/amazon-pay-api-v2/api-throttling-limits.html)
 https://www.django-rest-framework.org/api-guide/throttling/
+
+### ログ設定
+https://docs.python.org/ja/3.13/library/logging.handlers.html
+- StreamHandler ... ログ出力を sys.stdout, sys.stderr あるいは何らかのファイル風 (file-like) オブジェクト (あるいは、より正確に言えば write() および flush() メソッドをサポートする何らかのオブジェクト) といったストリームに送信する
+- FileHandler ... ログ出力をディスク上のファイルに送信する
+- RotatingFileHandler ... ディスク上のログファイルに対するローテーション処理をサポートする
+- HTTPHandler ... ログ記録メッセージを GET または POST セマンティクスを使って Web サーバに送信する機能をサポートする
+- その他いっぱいある
+- ログローテーションとは
+  - ログファイルが一定のファイルサイズに達したり、一定の期間が経過したらファイル名を変更しログファイルを切り分け、古くなったログファイルは消去する作業を言います。これによって、ログファイルの肥大化を防ぎます。
+  - https://linuc.org/study/column/3635/
 
 ### その他コマンド
 

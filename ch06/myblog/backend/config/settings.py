@@ -37,6 +37,7 @@ CUSTOM_APPS = [
     "blog",
     "author",
     "helper",
+    "common",
 ]
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
 
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "common.localthread_middleware.PopulateLocalsThreadMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -171,4 +173,42 @@ REST_FRAMEWORK = {
         "scope": "10000/day",
         "blog_limit": "1000/day",
     }
+}
+
+# ロギング設定
+LOGGING = {
+    # logging.config.dictConfig で設定するための version
+    # https://docs.python.org/ja/3.13/library/logging.config.html#logging.config.dictConfig
+    "version": 1,
+    # デフォルトの Django のロガーを無効化するかどうか
+    "disable_existing_loggers": False,
+    # logging message のフォーマット
+    "formatters": {
+        "verbose": {"format": "%(asctime)s %(process)d %(thread)d %(message)s"},
+    },
+    "loggers": {
+        "django_default": {
+            # 異なるハンドラーの namespace を設定する事ができる
+            "handlers": ["django_file"],
+            # ログレベルを設定. DEBUG, INFO, WARNING, ERROR, CRITICAL がある
+            "level": "INFO",
+        },
+    },
+    "handlers": {
+        # loggers.django_default.handlers で設定したハンドラー名
+        "django_file": {
+            # ハンドラーのクラスを指定
+            "class": "logging.handlers.RotatingFileHandler",
+            # ログファイルのパス
+            "filename": "logs/django_logs.log",
+            # ログファイルの最大サイズ
+            "maxBytes": 1024 * 1024 * 10,  # 10MB
+            # ローテーションで再利用する前に作成されるバックアップファイルの数
+            "backupCount": 10,
+            # ログメッセージのフォーマット.
+            # verbose ... ログ レベル名、ログ メッセージ、さらにログ メッセージを生成する時間、プロセス、スレッド、モジュールを出力
+            # simple ... ログ レベル名、ログ メッセージを出力
+            "formatter": "verbose",
+        },
+    },
 }
