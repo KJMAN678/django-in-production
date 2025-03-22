@@ -10,6 +10,7 @@ from rest_framework.throttling import (
 
 from blog.models import Blog
 from blog.serializers import BlogSerializer
+from common.logging_util import log_event
 
 
 @cached(timeout=60 * 10)
@@ -24,6 +25,7 @@ def get_all_blogs(author_id):
 def get_blogs_by_author(request):
     # ?author=xxx のパラメータの取得
     author_id = request.GET.get("author_id")
+    log_event("get_blogs_by_author", {"author_id": author_id})
     blogs = get_all_blogs(author_id)
     return Response({"blogs": blogs})
 

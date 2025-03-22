@@ -18,14 +18,70 @@ $ docker compose --env-file ../../.env exec web uv run backend/manage.py creates
 $ docker builder prune -f
 ```
 - author_id が 1のブログを取得
-http://127.0.0.1:8000/blog/blogs/?author_id=1
 http://127.0.0.1:8000/blog/blogs_auto_invalidation/?author_id=1
 http://127.0.0.1:8000/blog/blogs_anon_view/
 http://127.0.0.1:8000/blog/blogs_user_view/
 http://127.0.0.1:8000/blog/blogs_scoped_view/
 
+- def log_event() でログを記録する
+http://127.0.0.1:8000/blog/blogs_logs/?author_id=1
+
 http://127.0.0.1:8000/admin/login/
 
+- スレッドローカルストレージ（Thread Local Storage、TLS）
+  - マルチスレッドプログラムにおいて、各スレッドが独自のデータを保持するためのメモリ領域を指す
+  - [参考](https://www.notion.so/1be29a2fd70e804489b4d168455c3f64)
+
+# ログ解析ツール
+
+- New Relic
+  - New Relicは、アプリケーションパフォーマンス監視（APM）を中心としたフルスタックのオブザーバビリティプラットフォームです。
+  - ​アプリケーションのレスポンスタイム、エラー率、トランザクションなどの指標をリアルタイムでモニタリングし、問題の早期検出と迅速な対応を支援します。​
+  - 特に、コードレベルでの詳細な可視化が可能であり、異常の根本原因分析を容易にします。​また、ダッシュボード機能により、チーム内での情報共有や意思決定の迅速化にも寄与します。
+
+- Elasticsearch-Logstash-Kibana（ELK）スタック
+  - ELKスタックは、以下の3つの主要コンポーネントから構成されるオープンソースのログ管理および分析プラットフォームです。
+
+- Sentry
+  - リアルタイムのエラートラッキングツールで、Djangoとの統合が容易です。
+  - エラーの発生状況を即座に把握し、迅速な対応が可能となります。 ​
+
+- Django Debug Toolbar
+  - 開発中のデバッグを支援するツールで、SQLクエリの詳細やテンプレートのレンダリング時間など、詳細な情報を提供します。 ​
+
+- Django Extensions
+  - 追加の管理コマンドやツールを提供するパッケージで、開発やデバッグの効率化に役立ちます。 ​
+
+- Splunk
+  - 大規模なデータ分析プラットフォームで、ログの収集、検索、分析を強力にサポートします。​
+
+- Graylog
+  - オープンソースのログ管理ツールで、リアルタイムのログ解析やアラート機能を備えています。
+
+# 本番環境でのログのベストプラクティス
+
+- 本番環境でエラーを収集するためにログ記録を使用してはならない
+  - 小規模なプロジェクトでは通用するが、大規模になるとつらみが増す
+  - [Sentry](https://sentry.io/welcome/) や [Rollbar](https://rollbar.com/platforms/python-error-tracking/) を使うと良い
+
+- ログの転送にメールを使用してはならない
+  - ログ管理エージェントを利用すると良い
+  - [New Relic](https://docs.newrelic.com/jp/docs/apm/agents/python-agent/getting-started/introduction-new-relic-python/) や [Elasticsearch-Logstash-Kibana（ELK）スタック](https://www.elastic.co/elastic-stack) など
+
+- 機密情報をログに流してはならない
+  - 例
+    - メールアドレス
+    - パスワード
+    - 支払いの詳細
+
+- 共通のログ機能を使用すること。
+  - これにより、ログの形式が統一される
+  - ログエージェントによる解析が容易になる
+  - ログの解析がやりやすくなる
+
+- 現在のユースケースが終了したら、ログを削除すること.
+  - 古いログや不要なログを残し続けると、コストがかかってしまう
+  - アプリケーションが大きくなったら、古いロギング関数の呼び出しを削除したという経過を追った方が良い.
 
 ```sh
 $ mkdir backend/blog
