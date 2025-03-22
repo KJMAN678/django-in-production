@@ -1,0 +1,46 @@
+services:
+  web:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    ports:
+      - "${DJANGO_PORT}:${DJANGO_PORT}"
+    environment:
+      - "SECRET_KEY=${SECRET_KEY}"
+      - "DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}"
+      - "DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}"
+      - "DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}"
+      - "POSTGRES_HOSTNAME=${POSTGRES_HOSTNAME}"
+      - "POSTGRES_DB_NAME=${POSTGRES_DB_NAME}"
+      - "POSTGRES_USERNAME=${POSTGRES_USERNAME}"
+      - "POSTGRES_PORT=${POSTGRES_PORT}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+      - "REDIS_PORT=${REDIS_PORT}"
+      - "REDIS_PASSWORD=${REDIS_PASSWORD}"
+
+    command: uv run backend/manage.py runserver 0.0.0.0:${DJANGO_PORT}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17.4-alpine3.21
+    ports:
+        - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    environment:
+      - "POSTGRES_DB=${POSTGRES_DB_NAME}"
+      - "POSTGRES_USER=${POSTGRES_USERNAME}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.4.2-alpine
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    command: ["redis-server", "--requirepass", "123456"]
+    environment:
+      - "REDIS_PASSWORD=123456"
