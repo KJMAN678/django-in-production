@@ -172,7 +172,8 @@ REST_FRAMEWORK = {
         "user": "1000/day",  # user は認証ユーザーのリクエスト
         "scope": "10000/day",
         "blog_limit": "1000/day",
-    }
+    },
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
 }
 
 # ロギング設定

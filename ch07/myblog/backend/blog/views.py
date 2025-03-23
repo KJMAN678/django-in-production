@@ -7,6 +7,8 @@ from rest_framework.throttling import (
     UserRateThrottle,
     ScopedRateThrottle,
 )
+from rest_framework import generics
+from django.core.paginator import Paginator
 
 from blog.models import Blog
 from blog.serializers import BlogSerializer
@@ -92,3 +94,45 @@ class BlogScopedAPIView(views.APIView):
             many=True,
         )
         return Response(blogs.data)
+
+
+@api_view(["GET"])
+def get_blog_without_pagination(request):
+    blogs = Blog.objects.all()
+    blogs_data = BlogSerializer(blogs, many=True).data
+    return Response({"blogs": blogs_data})
+
+
+@api_view(["GET"])
+def get_blog_with_pagination(request):
+    page = int(request.GET.get("page", 1))
+    page_size = int(request.GET.get("page_size", 10))
+    offset = (page - 1) * page_size
+    limit = page * page_size
+    blogs = Blog.objects.all()[offset:limit]
+    blogs_data = BlogSerializer(blogs, many=True).data
+    return Response({"blogs": blogs_data})
+
+
+@api_view(["GET"])
+def get_blog_with_django_paginator(request):
+    blogs = Blog.objects.all()
+
+    page = int(request.GET.get("page", 1))
+    page_size = int(request.GET.get("page_size", 10))
+    paginator = Paginator(blogs, page_size)
+    blogs = paginator.get_page(page)
+    blogs_data = BlogSerializer(blogs, many=True).data
+    return Response({"blogs": blogs_data})
+
+
+@api_view(["GET"])
+def get_blogs(author_id):
+    blogs = Blog.objects.all()
+    blogs_data = BlogSerializer(blogs, many=True).data
+    return Response({"blogs": blogs_data})
+
+
+class GetBlogsView(generics.ListAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
