@@ -10,6 +10,7 @@ from rest_framework.throttling import (
 from rest_framework import generics
 from django.core.paginator import Paginator
 
+from blog import public
 from blog.models import Blog
 from blog.serializers import BlogSerializer
 from common.logging_util import log_event
@@ -136,3 +137,10 @@ def get_blogs(author_id):
 class GetBlogsView(generics.ListAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+
+
+@api_view(["GET"])
+def publish_blog(request):
+    blog_id = request.GET.get("id")
+    public.publish_blog(blog_id)
+    return Response({"status": "success"})

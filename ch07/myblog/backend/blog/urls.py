@@ -12,4 +12,5 @@ urlpatterns = [
     path("django_paginator/", views.get_blog_with_django_paginator),
     # path("get_blogs/", views.get_blogs),
     path("get_blogs/", views.GetBlogsView.as_view()),
+    path("publish/", views.publish_blog),
 ]

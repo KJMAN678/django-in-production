@@ -58,6 +58,10 @@ http://127.0.0.1:8000/blog/django_paginator/?page=1&page_size=1
 - DRFのページネーション
 http://127.0.0.1:8000/blog/get_blogs/?limit=10&offset=1
 
+- custom signal
+http://127.0.0.1:8000/blog/publish?id=1
+
+- admin画面
 http://127.0.0.1:8000/admin/login/
 
 
@@ -155,7 +159,19 @@ https://cra.mr/2011/03/08/building-cursors-for-the-disqus-api/
   - connection_created
     - Django サーバーとデータベースの間にデータベース接続が確立されるたびに起動する
 
+### Custom Signal
+
+- たとえば、ユーザーが自社のWebサイトで製品を購入するたびに、電子メール、SMS、WhatsAppなどの複数の通信を送信する場合は、Custom Signal を会してそれを行うことができる
+  - 購入のたびに Custom Signal を発送し、reciever を発送する
+
+- signal の定義
+- trigger
+- reciever
+- アプリがロードされるときに、receiver が登録されていることを確認する必要がある
+
 ### その他コマンド
+
+### 本番環境で Signals を使う場合の注意点
 
 ```sh
 $ docker compose --env-file ../../.env exec web uv run backend/manage.py migrate

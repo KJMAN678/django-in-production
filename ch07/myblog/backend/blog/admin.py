@@ -4,6 +4,7 @@ from blog.models import Blog, CoverImage, Tag
 
 class BlogAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "title",
         "author",
         "cover_image",

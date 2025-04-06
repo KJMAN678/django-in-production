@@ -18,6 +18,8 @@ services:
       - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
       - "REDIS_PORT=${REDIS_PORT}"
       - "REDIS_PASSWORD=${REDIS_PASSWORD}"
+      # print log出力用
+      - PYTHONUNBUFFERED=1
 
     command: uv run backend/manage.py runserver 0.0.0.0:${DJANGO_PORT}
     depends_on:
