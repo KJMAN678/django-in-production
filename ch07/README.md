@@ -169,6 +169,9 @@ https://cra.mr/2011/03/08/building-cursors-for-the-disqus-api/
 - reciever
 - アプリがロードされるときに、receiver が登録されていることを確認する必要がある
 
+### Signal 参考ブログ
+- [Djangoのシグナル機能(django.dispatch.Signal)](https://tokibito.hatenablog.com/entry/2023/12/08/214454)
+
 ### その他コマンド
 
 ### 本番環境で Signals を使う場合の注意点
